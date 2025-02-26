@@ -12,7 +12,7 @@ const verifyEmailController = {
 
       if (user.isAccountVerified) {
         return res
-          .status(400)
+          
           .json({ message: "Account already verified", success: false });
       }
       // it will generate the 6 digit random number otp
@@ -45,7 +45,7 @@ const verifyEmailController = {
     const { userId, otp } = req.body;
     if (!userId || !otp) {
       return res
-        .status(400)
+        
         .json({ message: "Missing Details", success: false });
     }
     try {
@@ -53,16 +53,16 @@ const verifyEmailController = {
 
       if (!user) {
         return res
-          .status(400)
+          
           .json({ message: "User not found", success: false });
       }
 
       if (user.verifyOtp === "" || user.verifyOtp !== otp) {
-        return res.status(400).json({ message: "Invalid otp", success: false });
+        return res.json({ message: "Invalid otp", success: false });
       }
 
       if (user.verifyOtpExpireAt < Date.now()) {
-        return res.status(400).json({ message: "otp expires", success: false });
+        return res.json({ message: "otp expires", success: false });
       }
 
       user.isAccountVerified = true;

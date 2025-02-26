@@ -9,7 +9,7 @@ const userController = {
 
       if (!user) {
         return res
-          .status(400)
+          
           .json({ message: "User not found", success: false });
       }
       res.status(200).json({

@@ -9,9 +9,10 @@ authRouter.post("/login", authController.login);
 authRouter.post("/logout", authController.logout);
 authRouter.post("/send-reset-otp", authController.sendResetOtp);
 authRouter.post("/reset-password", authController.resetPassword);
+// authRouter.post("/reset-passwordinEmail",authController.resetUsingEmail);
 
 authRouter.post("/send-verify-otp", userAuth,verifyEmailController.sendVerifyOtp);
 authRouter.post("/verify-account", userAuth,verifyEmailController.verifyEmail);
-authRouter.post("/is-auth", userAuth,verifyEmailController.isAuthenticated);
+authRouter.get("/is-auth", userAuth,verifyEmailController.isAuthenticated);
 
 export default authRouter;
