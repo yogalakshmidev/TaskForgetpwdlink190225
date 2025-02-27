@@ -190,5 +190,67 @@ const authController = {
       return res.status(500).json({ message: error.message, success: false });
     }
   },
+  forgetPassword: async (req, res) => {
+    try {
+      const { email } = req.body;
+
+      if (!email) {
+        return res.json({ message: "Please enter Email ", success: false });
+      }
+      const user = await userModel.findOne({ email });
+
+      if (!user) {
+        return res.json({
+          message: "Email not found.. Please enter the registered email id ",
+          success: false,
+        });
+      }
+
+      const token = jwt.sign({ email }, process.env.RESET_TOKEN, {
+        expiresIn: "1h",
+      });
+      // console.log("token is", token);
+      // send email
+      const mailOptions = {
+        from: process.env.EMAILID,
+        to: user.email,
+        subject: "Password Reset Request Link",
+        text: `Click on this link to generate your new password ${process.env.CLIENT_URL}/update-password/?token=${token}`,
+      };
+      await transporter.sendMail(mailOptions);
+
+      return res.status(200).json({
+        message: "Password reset link send in email successfully",
+        success: true,
+      });
+    } catch (error) {
+      return res.status(500).json({ message: error.message, success: false });
+    }
+  },
+
+  resetPasswordLink: async (req, res) => {
+    const { token, password } = req.body;
+   
+    if ((!token, !password)) {
+      return res.status(400).json({ message: "Please Provide New Password" });
+    }
+    try {
+      const decoded = jwt.verify(token, process.env.RESET_TOKEN);
+
+      const user = await userModel.findOne({ email: decoded.email });
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      user.password = hashedPassword;
+
+      await user.save();
+
+      return res
+        .status(200)
+        .json({ message: "Password Reset Successfully", success: true });
+    } catch (error) {
+      return res.status(500).json({ message: error.message, success: false });
+    }
+  },
 };
 export default authController;

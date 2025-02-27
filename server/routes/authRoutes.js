@@ -8,8 +8,10 @@ authRouter.post("/register", authController.register);
 authRouter.post("/login", authController.login);
 authRouter.post("/logout", authController.logout);
 authRouter.post("/send-reset-otp", authController.sendResetOtp);
-authRouter.post("/reset-password", authController.resetPassword);
-// authRouter.post("/reset-passwordinEmail",authController.resetUsingEmail);
+authRouter.post("/reset-passwordusingOtp", authController.resetPassword);
+authRouter.post("/send-forgotpwdinemail",authController.forgetPassword);
+
+authRouter.post("/resetPasswordLink",authController.resetPasswordLink);
 
 authRouter.post("/send-verify-otp", userAuth,verifyEmailController.sendVerifyOtp);
 authRouter.post("/verify-account", userAuth,verifyEmailController.verifyEmail);
