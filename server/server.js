@@ -12,10 +12,10 @@ const port = process.env.PORT || 4000;
 connectDB();
 
 // add the frontend server url where we want to use the backend
-const allowedOrigins = ["http://localhost:5173"];
+// const allowedOrigins = ["http://localhost:5173"];
 app.use(express.json());
 app.use(cookieParser());
- app.use(cors({ origin: allowedOrigins, credentials: true }));
+ app.use(cors({ origin: process.env.CLIENT_URL , credentials: true }));
 
 // Api Endpoints
 app.get("/", (req, res) => {
