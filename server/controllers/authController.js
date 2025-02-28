@@ -30,13 +30,13 @@ const authController = {
         expiresIn: "7d",
       });
       // secure will be false for development environment and true for production environment
-      // sameSite will be strict for local and for live server sameSite will be null
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
+      // sameSite will be strict for local and for live server sameSite will be null for HTTP
+      // res.cookie("token", token, {
+      //   httpOnly: true,
+      //   secure: process.env.NODE_ENV === "production",
+      //   sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      //   maxAge: 7 * 24 * 60 * 60 * 1000,
+      // });
       // sending welcome email
       const mailOptions = {
         from: process.env.EMAILID,
